@@ -23,11 +23,18 @@ acc_price = []
 for account in accounts:
     acc_price.append(accounts[account].balance)
 def leaderboard():
+    acc_price = []
+    for account in accounts:
+        acc_price.append(accounts[account].balance)
+
     data = {"Name": list(accounts.keys()), "Balance": acc_price}
     df = pd.DataFrame(data)
 
-    st.sidebar.header("...Other Bank Accounts...")
+    df = df.sort_values(by="Balance", ascending=False).reset_index(drop=True)
+
+    st.sidebar.header("🏆 Leaderboard (Top Accounts)")
     st.sidebar.dataframe(df)
+
 leaderboard()
 # ---------------------------------------
 
@@ -82,3 +89,4 @@ if session_id in sessions:
     leaderboard()
 else:
     st.warning("Please log in to access banking options.")
+
