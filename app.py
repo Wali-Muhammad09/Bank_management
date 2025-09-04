@@ -32,7 +32,8 @@ def leaderboard():
 
     df = df.sort_values(by="Balance", ascending=False).reset_index(drop=True)
 
-    st.sidebar.header("🏆 Leaderboard (Top Accounts)")
+    
+st.sidebar.header("🏆 Leaderboard (Top Accounts)")
     st.sidebar.dataframe(df)
 
 leaderboard()
@@ -89,4 +90,5 @@ if session_id in sessions:
     leaderboard()
 else:
     st.warning("Please log in to access banking options.")
+
 
