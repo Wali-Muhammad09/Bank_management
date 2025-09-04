@@ -33,9 +33,9 @@ def leaderboard():
     # Sort balances from highest to lowest
     df = df.sort_values(by="Balance", ascending=False).reset_index(drop=True)
 
-    with leaderboard_placeholder:
-        st.header("🏆 Leaderboard (Top Accounts)")
-        st.dataframe(df)
+    
+    st.sidebar_header("🏆 Leaderboard (Top Accounts)")
+    st.sidebar_dataframe(df)
 
 # ---------------------------------------
 # Main app
@@ -92,4 +92,5 @@ if session_id in sessions:
     leaderboard()  # refresh leaderboard after logout
 else:
     st.warning("Please log in to access banking options.")
+
 
