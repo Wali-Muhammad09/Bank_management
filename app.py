@@ -22,12 +22,13 @@ load_all_accounts()
 acc_price = []
 for account in accounts:
     acc_price.append(accounts[account].balance)
+def leaderboard():
+    data = {"Name": list(accounts.keys()), "Balance": acc_price}
+    df = pd.DataFrame(data)
 
-data = {"Name": list(accounts.keys()), "Balance": acc_price}
-df = pd.DataFrame(data)
-
-st.sidebar.header("...Other Bank Accounts...")
-st.sidebar.dataframe(df)
+    st.sidebar.header("...Other Bank Accounts...")
+    st.sidebar.dataframe(df)
+leaderboard()
 # ---------------------------------------
 
 st.title("🏦 Welcome to the Bank!!!")

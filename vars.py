@@ -1,7 +1,7 @@
 import streamlit as st
 import json
 import glob
-
+from app import leaderboard
 # Global state (shared by all sessions)
 accounts = {}
 sessions = {}  # session_id -> username
@@ -34,6 +34,7 @@ class BankAccount:
                 if code in codes_dict:
                     self.balance += codes_dict[code]
                     st.text(f"${codes_dict[code]} deposited. New balance: ${self.balance}")
+                    leaderboard()
                 else:
                     st.error("That code does not exist")
         save_all_accounts()
@@ -46,6 +47,7 @@ class BankAccount:
             target.balance += amount
             st.text(f"Sent ${amount} to {target.owner}. New balance: ${self.balance}")
             save_all_accounts()
+        leaderboard()
 
     def check_balance(self):
         st.text(f"Account balance: ${self.balance}")
