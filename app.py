@@ -1,6 +1,17 @@
 from vars import *
 import streamlit as st
 import pandas as pd
+import uuid
+
+# ---------------------------------------
+# Generate unique session ID per user
+# ---------------------------------------
+def get_session_id():
+    if "session_id" not in st.session_state:
+        st.session_state.session_id = str(uuid.uuid4())
+    return st.session_state.session_id
+
+session_id = get_session_id()
 
 # ---------------------------------------
 # Load existing accounts
@@ -30,7 +41,7 @@ user = None
 if choice == "Register":
     register()
 elif choice == "Login":
-    user = login()
+    user = login(session_id)
     if user:
         st.success(f"Welcome back, {user.owner}!")
         st.info(f"Your current balance is: ${user.balance}")
@@ -38,7 +49,8 @@ elif choice == "Login":
 # ------------------------------
 # Banking options if logged in
 # ------------------------------
-if current_user:
+if session_id in sessions:
+    current_user = sessions[session_id]
     user = accounts[current_user]
 
     st.subheader("Banking Options")
@@ -64,7 +76,7 @@ if current_user:
         user.check_balance()
 
     st.divider()
-    logout()
+    logout(session_id)
 
 else:
     st.warning("Please log in to access banking options.")

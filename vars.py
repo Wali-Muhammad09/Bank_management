@@ -1,11 +1,10 @@
 import streamlit as st
 import json
 import glob
-import pandas as pd
 
-# Global state (instead of session_state)
+# Global state (shared by all sessions)
 accounts = {}
-current_user = None
+sessions = {}  # session_id -> username
 acc = []
 
 # ------------------------------
@@ -17,6 +16,7 @@ codes_dict = {
     "99101": 10000,
     "86368": 100000,
 }
+
 
 # ------------------------------
 # CLASSES
@@ -43,7 +43,7 @@ class BankAccount:
             st.text("Insufficient funds.")
         else:
             self.balance -= amount
-            target.balance+=amount
+            target.balance += amount
             st.text(f"Sent ${amount} to {target.owner}. New balance: ${self.balance}")
             save_all_accounts()
 
@@ -70,14 +70,14 @@ def register():
         acc.append(name)
 
 
-def login():
-    global accounts, current_user
+def login(session_id):
+    global accounts, sessions
     name = st.text_input("Enter your name:")
     password = st.text_input("Enter your password:", type="password")
     if st.button("Login"):
         user = accounts.get(name)
         if user and user.pw == password:
-            current_user = name
+            sessions[session_id] = name
             st.success(f"Logged in as {name}!")
         else:
             st.error("Invalid name or password!")
@@ -86,15 +86,16 @@ def login():
         acc.append(name)
 
     # Return the currently logged-in user object if available
-    if current_user:
-        return accounts[current_user]
+    if session_id in sessions:
+        return accounts[sessions[session_id]]
     return None
 
 
-def logout():
-    global current_user
+def logout(session_id):
+    global sessions
     if st.button("Logout"):
-        current_user = None
+        if session_id in sessions:
+            del sessions[session_id]
         st.success("Logged out successfully!")
 
 
