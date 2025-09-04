@@ -69,6 +69,7 @@ if session_id in sessions:
                 st.warning("That account does not exist!\nMake sure to enter the right name")
             else:
                 user.transaction(amount, accounts[target_name])
+                leaderboard()
 
     elif option == "Deposit":
         user.deposit()
@@ -78,6 +79,6 @@ if session_id in sessions:
 
     st.divider()
     logout(session_id)
-
+    leaderboard()
 else:
     st.warning("Please log in to access banking options.")
