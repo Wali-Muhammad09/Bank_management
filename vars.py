@@ -38,12 +38,13 @@ class BankAccount:
                     st.error("That code does not exist")
         save_all_accounts()
 
-    def withdraw(self, amount):
+    def transaction(self, amount, target):
         if amount > self.balance:
             st.text("Insufficient funds.")
         else:
             self.balance -= amount
-            st.text(f"${amount} withdrawn. New balance: ${self.balance}")
+            target.balance+=amount
+            st.text(f"Sent ${amount} to {target.owner}. New balance: ${self.balance}")
             save_all_accounts()
 
     def check_balance(self):

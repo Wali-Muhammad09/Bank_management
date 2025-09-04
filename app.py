@@ -7,6 +7,7 @@ import pandas as pd
 # ---------------------------------------
 load_all_accounts()
 
+# Prepare sidebar account table
 acc_price = []
 for account in accounts:
     acc_price.append(accounts[account].balance)
@@ -41,12 +42,20 @@ if current_user:
     user = accounts[current_user]
 
     st.subheader("Banking Options")
-    option = st.radio("Select what you would like to do:", ["Withdraw", "Deposit", "Check Balance"])
+    option = st.radio("Select what you would like to do:", ["Make a transaction", "Deposit", "Check Balance"])
 
-    if option == "Withdraw":
-        amount = st.number_input("Enter amount to withdraw:", min_value=1.0, step=1.0)
-        if st.button("Withdraw"):
-            user.withdraw(amount)
+    if option == "Make a transaction":
+        amount = st.number_input("Enter amount to send:", min_value=1.0, step=1.0)
+        target_name = st.selectbox(
+            "Choose who you want to send money to:",
+            [acc.owner for acc in accounts.values() if acc.owner != user.owner]
+        )
+
+        if st.button("Send"):
+            if target_name not in accounts:
+                st.warning("That account does not exist!\nMake sure to enter the right name")
+            else:
+                user.transaction(amount, accounts[target_name])
 
     elif option == "Deposit":
         user.deposit()
