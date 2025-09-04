@@ -33,9 +33,9 @@ def leaderboard():
     # Sort balances from highest to lowest
     df = df.sort_values(by="Balance", ascending=False).reset_index(drop=True)
 
-    
-    st.sidebar.header("🏆 Leaderboard (Top Accounts)")
-    st.sidebar.dataframe(df)
+    with leadearboard_placeholder:
+        st.header("🏆 Leaderboard (Top Accounts)")
+        st.dataframe(df)
 
 # ---------------------------------------
 # Main app
