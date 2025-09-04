@@ -34,7 +34,7 @@ def leaderboard():
 
     
 st.sidebar.header("🏆 Leaderboard (Top Accounts)")
-    st.sidebar.dataframe(df)
+st.sidebar.dataframe(df)
 
 leaderboard()
 # ---------------------------------------
@@ -90,5 +90,6 @@ if session_id in sessions:
     leaderboard()
 else:
     st.warning("Please log in to access banking options.")
+
 
 
