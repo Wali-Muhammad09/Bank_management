@@ -21,6 +21,9 @@ load_all_accounts()
 # ---------------------------------------
 # Leaderboard function
 # ---------------------------------------
+# Reserve one spot in the sidebar for the leaderboard
+leaderboard_placeholder = st.sidebar.empty()
+
 def leaderboard():
     acc_price = [accounts[account].balance for account in accounts]
 
@@ -30,11 +33,9 @@ def leaderboard():
     # Sort balances from highest to lowest
     df = df.sort_values(by="Balance", ascending=False).reset_index(drop=True)
 
-    st.sidebar.header("🏆 Leaderboard (Top Accounts)")
-    st.sidebar.dataframe(df)
-
-# Always show leaderboard
-leaderboard()
+    with leaderboard_placeholder:
+        st.header("🏆 Leaderboard (Top Accounts)")
+        st.dataframe(df)
 
 # ---------------------------------------
 # Main app
@@ -91,3 +92,4 @@ if session_id in sessions:
     leaderboard()  # refresh leaderboard after logout
 else:
     st.warning("Please log in to access banking options.")
+
