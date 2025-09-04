@@ -65,7 +65,7 @@ if session_id in sessions:
     option = st.radio("Select what you would like to do:", ["Make a transaction", "Deposit", "Check Balance"])
 
     if option == "Make a transaction":
-        amount = st.number_input("Enter amount to send:", min_value=1.0, step=1.0)
+        amount = st.number_input("Enter amount to send:", min_value=1.0, step=5.0)
         target_name = st.selectbox(
             "Choose who you want to send money to:",
             [acc.owner for acc in accounts.values() if acc.owner != user.owner]
@@ -90,6 +90,7 @@ if session_id in sessions:
     leaderboard()  # refresh leaderboard after logout
 else:
     st.warning("Please log in to access banking options.")
+
 
 
 
